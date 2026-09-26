@@ -282,12 +282,21 @@ total: \(totalCount, privacy: .public)
                 let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ZimFile.fetchRequest()
                 fetchRequest.predicate = ZimFile.Predicate.notDownloaded()
                 let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                deleteRequest.resultType = .resultTypeCount
+                // the object IDs, so the deletions can be merged into the context below:
+                // a batch delete goes straight to the store, leaving whatever the context
+                // already handed out behind as an object that still looks valid but whose row
+                // is gone, and reading its fileID or created then traps
+                deleteRequest.resultType = .resultTypeObjectIDs
                 let context = Database.shared.viewContext
-                if let result = try context.execute(deleteRequest) as? NSBatchDeleteResult {
-                    return result.result as? Int ?? 0
+                guard let result = try context.execute(deleteRequest) as? NSBatchDeleteResult,
+                      let objectIDs = result.result as? [NSManagedObjectID] else {
+                    return 0
                 }
-                return 0
+                NSManagedObjectContext.mergeChanges(
+                    fromRemoteContextSave: [NSDeletedObjectsKey: objectIDs],
+                    into: [context]
+                )
+                return objectIDs.count
             }
             
             // 2) insert new entries from the feed, exluding the already downloaded ones
