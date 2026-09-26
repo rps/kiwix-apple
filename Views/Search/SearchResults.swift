@@ -222,7 +222,7 @@ struct SearchResults: View {
             }
             if FeatureFlags.hasLibrary {
                 Section {
-                    ForEach(zimFiles, id: \.fileID) { zimFile in
+                    ForEach(zimFiles, id: \.objectID) { zimFile in
                         HStack {
                             Toggle(zimFile.name, isOn: Binding<Bool>(get: {
                                 zimFile.includedInSearch && !zimFile.isMissing

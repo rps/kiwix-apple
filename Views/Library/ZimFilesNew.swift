@@ -116,7 +116,7 @@ struct ZimFilesNew: View {
             alignment: .leading,
             spacing: 12
         ) {
-            ForEach(viewModel.zimFiles, id: \.fileID) { zimFile in
+            ForEach(viewModel.zimFiles, id: \.objectID) { zimFile in
                 LibraryZimFileContext(
                     content: {
                         ZimFileCell(

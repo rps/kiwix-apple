@@ -47,7 +47,7 @@ struct LocalLibraryList: View {
         ) {
             
             GridSection(title: LocalString.welcome_main_page_title) {
-                ForEach(zimFiles, id: \.fileID) { zimFile in
+                ForEach(zimFiles, id: \.objectID) { zimFile in
                     AsyncButtonView {
                         guard let url = await ZimFileService.shared
                             .getMainPageURL(zimFileID: zimFile.fileID) else { return }
@@ -74,7 +74,7 @@ struct LocalLibraryList: View {
             }
             if !bookmarks.isEmpty {
                 GridSection(title: LocalString.welcome_grid_bookmarks_title) {
-                    ForEach(bookmarks.prefix(6)) { bookmark in
+                    ForEach(bookmarks.prefix(6), id: \.objectID) { bookmark in
                         Button {
                             load(bookmark.articleURL)
                         } label: {

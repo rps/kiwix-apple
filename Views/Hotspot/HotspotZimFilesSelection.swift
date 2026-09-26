@@ -77,7 +77,7 @@ struct HotspotZimFilesSelection: View {
                         alignment: .center,
                         spacing: 12
                     ) {
-                        ForEach(zimFiles, id: \.fileID) { zimFile in
+                        ForEach(zimFiles, id: \.objectID) { zimFile in
                             MultiZimFilesSelectionContext(
                                 content: {
                                     ZimFileCell(

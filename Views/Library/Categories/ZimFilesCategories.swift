@@ -116,7 +116,7 @@ struct ZimFilesCategory: View {
                 CategoryEmptySection()
             } else {
                 LazyVGrid(columns: ([Self.gridItem]), alignment: .leading, spacing: 12) {
-                    ForEach(results, id: \.fileID) { zimFile in
+                    ForEach(results, id: \.objectID) { zimFile in
                         LibraryZimFileContext(
                             content: { ZimFileCell(
                                 zimFile,

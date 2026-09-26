@@ -37,7 +37,7 @@ struct ZimFilesDownloads: View {
             alignment: .leading,
             spacing: 12
         ) {
-            ForEach(downloadTasks, id: \.fileID) { downloadTask in
+            ForEach(downloadTasks, id: \.objectID) { downloadTask in
                 if let zimFile = downloadTask.zimFile, zimFile.downloadTask != nil {
                     LibraryZimFileContext(
                         content: { DownloadTaskCell(zimFile) },
